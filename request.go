@@ -627,6 +627,9 @@ func (r *Request) Do(ctx ...context.Context) *Response {
 		return r.newErrorResponse(errRetryableWithUnReplayableBody)
 	}
 	resp, _ := r.do()
+	if resp.ContentLength == -1 {
+		resp.ContentLength = int64(len(resp.body))
+	}
 	return resp
 }
 
